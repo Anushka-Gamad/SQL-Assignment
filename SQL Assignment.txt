@@ -1,0 +1,59 @@
+INSERT INTO Salespeople(SNUM, SNAME, CITY, COMM)
+    -> VALUES(1001, 'Peel', 'London', 12);
+INSERT INTO Salespeople(SNUM, SNAME, CITY, COMM)
+    -> VALUES(1002, 'Serres', 'SanJose', 13);
+ INSERT INTO Salespeople(SNUM, SNAME, CITY, COMM)
+    -> VALUES(1004, 'Motika', 'London', 11);
+ INSERT INTO Salespeople(SNUM, SNAME, CITY, COMM)
+    -> VALUES(1007, 'Rifkin', 'Barcelona', 15);
+INSERT INTO Salespeople(SNUM, SNAME, CITY, COMM)
+    -> VALUES(1003, 'AxelRod', 'New York', 10);
+INSERT INTO Salespeople(SNUM, SNAME, CITY, COMM)
+    -> VALUES(1008, 'Fran', 'London', 25);
+
+
+
+-->SELECT * FROM Salespeople;
++------+---------+-----------+------+
+| SNUM | SNAME   | CITY      | COMM |
++------+---------+-----------+------+
+| 1001 | Peel    | London    |   12 |
+| 1002 | Serres  | SanJose   |   13 |
+| 1004 | Motika  | London    |   11 |
+| 1007 | Rifkin  | Barcelona |   15 |
+| 1003 | AxelRod | New York  |   10 |
+| 1008 | Fran    | London    |   25 |
++------+---------+-----------+------+
+6 rows in set (0.01 sec)
+
+-->SELECT * FROM Customers;
++------+----------+---------+--------+------+
+| CNUM | CNAME    | CITY    | RATING | SNUM |
++------+----------+---------+--------+------+
+| 2001 | Hoffman  | London  |    100 | 1001 |
+| 2002 | Giovanni | Rome    |    200 | 1003 |
+| 2003 | Liu      | SanJose |    200 | 1002 |
+| 2004 | Grass    | Berlin  |    300 | 1002 |
+| 2006 | Clemens  | London  |    100 | 1001 |
+| 2008 | Cisneros | SanJose |    300 | 1007 |
+| 2007 | Pereira  | Rome    |    100 | 1004 |
++------+----------+---------+--------+------+
+7 rows in set (0.00 sec)
+
+
+--> SELECT * FROM Orders;
++------+---------+----------+------+------+
+| ONUM | AMT     | ODATE    | CNUM | SNUM |
++------+---------+----------+------+------+
+| 3001 |   18.69 | 10/03/90 | 2008 | 1007 |
+| 3003 |  767.19 | 10/03/90 | 2001 | 1001 |
+| 3002 |  767.19 | 10/03/90 | 2001 | 1001 |
+| 3005 | 5160.45 | 10/03/90 | 2007 | 1004 |
+| 3006 | 1098.16 | 10/03/90 | 2008 | 1007 |
+| 3009 | 1713.23 | 10/04/90 | 2002 | 1003 |
+| 3007 |   75.75 | 10/04/90 | 2004 | 1002 |
+| 3008 |    4723 | 10/05/90 | 2006 | 1001 |
+| 3010 | 1309.95 | 10/06/90 | 2004 | 1002 |
+| 3011 | 9891.88 | 10/06/90 | 2006 | 1001 |
++------+---------+----------+------+------+
+10 rows in set (0.00 sec)
