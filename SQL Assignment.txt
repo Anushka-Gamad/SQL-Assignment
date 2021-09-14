@@ -504,6 +504,19 @@ mysql> SELECT SNUM,SNAME,COMM,CITY FROM Salespeople ;
 
 
 -->Query 32
+mysql> SELECT * FROM CUSTOMERS WHERE CNAME BETWEEN 'A%' AND 'H%' ORDER BY CNAME;
++------+----------+---------+--------+------+
+| CNUM | CNAME    | CITY    | RATING | SNUM |
++------+----------+---------+--------+------+
+| 2008 | Cisneros | SanJose |    300 | 1007 |
+| 2006 | Clemens  | London  |    100 | 1001 |
+| 2002 | Giovanni | Rome    |    200 | 1003 |
+| 2004 | Grass    | Berlin  |    300 | 1002 |
++------+----------+---------+--------+------+
+4 rows in set (0.01 sec)
+
+-->Query 33
+
 
 
 -->Query 34. Select all orders that are greater than the average for October 4.
@@ -574,6 +587,124 @@ mysql> SELECT CITY, MAX(RATING) AS RATING FROM CUSTOMERS GROUP BY CITY;
 | Berlin  |    300 |
 +---------+--------+
 4 rows in set (0.00 sec)
+
+-->Query 41
+mysql> SELECT O.AMT,O.CNUM,C.RATING,C.SNUM,S.SNAME,S.COMM,O.AMT*S.COMM FROM ORDERS O,CUSTOMERS C,SALESPEOPLE S WHERE O.CNUM=C.CNUM and C.SNUM=S.SNUM AND C.RATING>100;
++---------+------+--------+------+---------+------+--------------------+
+| AMT     | CNUM | RATING | SNUM | SNAME   | COMM | O.AMT*S.COMM       |
++---------+------+--------+------+---------+------+--------------------+
+| 1309.95 | 2004 |    300 | 1002 | Serres  |   13 | 17029.349365234375 |
+|   75.75 | 2004 |    300 | 1002 | Serres  |   13 |             984.75 |
+| 5160.45 | 2003 |    200 | 1002 | Serres  |   13 |   67085.8525390625 |
+| 1098.16 | 2008 |    300 | 1007 | Rifkin  |   15 | 16472.400512695312 |
+|   18.69 | 2008 |    300 | 1007 | Rifkin  |   15 | 280.35000801086426 |
+| 1713.23 | 2002 |    200 | 1003 | AxelRod |   10 |   17132.2998046875 |
++---------+------+--------+------+---------+------+--------------------+
+6 rows in set (0.00 sec)
+
+-->Query 42
+
+-->Query 43
+mysql> SELECT * FROM SALESPEOPLE WHERE CITY='Barcelona' OR CITY='London';
++------+--------+-----------+------+
+| SNUM | SNAME  | CITY      | COMM |
++------+--------+-----------+------+
+| 1001 | Peel   | London    |   12 |
+| 1004 | Motika | London    |   11 |
+| 1007 | Rifkin | Barcelona |   15 |
+| 1008 | Fran   | London    |   25 |
++------+--------+-----------+------+
+4 rows in set (0.00 sec)
+
+-->Query 44
+mysql> SELECT S.SNAME, S.SNUM FROM SALESPEOPLE S, (SELECT SNUM,COUNT(*) AS CUSTOMER_COUNT FROM CUSTOMERS GROUP BY SNUM HAVING CUSTOMER_COUNT=1)B WHERE S.SNUM=B.SNUM;
++---------+------+
+| SNAME   | SNUM |
++---------+------+
+| Motika  | 1004 |
+| Rifkin  | 1007 |
+| AxelRod | 1003 |
++---------+------+
+3 rows in set (0.01 sec)
+
+
+-->Query 45
+
+
+
+-->Query 46
+mysql> SELECT * FROM ORDERS WHERE AMT>1000;
++------+---------+----------+------+------+
+| ONUM | AMT     | ODATE    | CNUM | SNUM |
++------+---------+----------+------+------+
+| 3002 |  1900.1 | 10/03/90 | 2007 | 1004 |
+| 3005 | 5160.45 | 10/03/90 | 2003 | 1002 |
+| 3006 | 1098.16 | 10/03/90 | 2008 | 1007 |
+| 3009 | 1713.23 | 10/04/90 | 2002 | 1003 |
+| 3008 |    4723 | 10/05/90 | 2006 | 1001 |
+| 3010 | 1309.95 | 10/06/90 | 2004 | 1002 |
+| 3011 | 9891.88 | 10/06/90 | 2006 | 1001 |
++------+---------+----------+------+------+
+7 rows in set (0.00 sec)
+
+
+-->Query 47
+mysql> SELECT O.ONUM,C.CNAME FROM ORDERS O, CUSTOMERS C WHERE C.CNUM=O.CNUM;
++------+----------+
+| ONUM | CNAME    |
++------+----------+
+| 3001 | Cisneros |
+| 3003 | Hoffman  |
+| 3002 | Pereira  |
+| 3005 | Liu      |
+| 3006 | Cisneros |
+| 3009 | Giovanni |
+| 3007 | Grass    |
+| 3008 | Clemens  |
+| 3010 | Grass    |
+| 3011 | Clemens  |
++------+----------+
+10 rows in set (0.01 sec)
+
+-->Query 48
+mysql> SELECT CNAME FROM CUSTOMERS WHERE RATING>ANY (SELECT RATING FROM CUSTOMERS WHERE SNUM=(SELECT SNUM FROM SALESPEOPLE WHERE SNAME='Serres'));
++----------+
+| CNAME    |
++----------+
+| Grass    |
+| Cisneros |
++----------+
+2 rows in set (0.00 sec)
+
+-->Query 49
+mysql> SELECT * FROM ORDERS WHERE ODATE='10/04/90'OR ODATE='10/03/90';
++------+---------+----------+------+------+
+| ONUM | AMT     | ODATE    | CNUM | SNUM |
++------+---------+----------+------+------+
+| 3001 |   18.69 | 10/03/90 | 2008 | 1007 |
+| 3003 |  767.19 | 10/03/90 | 2001 | 1001 |
+| 3002 |  1900.1 | 10/03/90 | 2007 | 1004 |
+| 3005 | 5160.45 | 10/03/90 | 2003 | 1002 |
+| 3006 | 1098.16 | 10/03/90 | 2008 | 1007 |
+| 3009 | 1713.23 | 10/04/90 | 2002 | 1003 |
+| 3007 |   75.75 | 10/04/90 | 2004 | 1002 |
++------+---------+----------+------+------+
+7 rows in set (0.00 sec)
+
+-->Query 50
+mysql> SELECT CNAME FROM CUSTOMERS WHERE RATING>ANY (SELECT RATING FROM CUSTOMERS WHERE CITY='Rome');
++----------+
+| CNAME    |
++----------+
+| Giovanni |
+| Liu      |
+| Grass    |
+| Cisneros |
++----------+
+4 rows in set (0.00 sec)
+
+
+
 
 
 
