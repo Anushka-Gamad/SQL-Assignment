@@ -703,6 +703,97 @@ mysql> SELECT CNAME FROM CUSTOMERS WHERE RATING>ANY (SELECT RATING FROM CUSTOMER
 +----------+
 4 rows in set (0.00 sec)
 
+-->Query 51
+
+mysql> SELECT CNAME FROM CUSTOMERS WHERE RATING>(SELECT MAX(RATING)FROM CUSTOMERS WHERE CITY='Rome');
++----------+
+| CNAME    |
++----------+
+| Grass    |
+| Cisneros |
++----------+
+2 rows in set (0.01 sec)
+
+
+-->Query 52
+mysql> SELECT * FROM CUSTOMERS WHERE SNUM=1001;
++------+---------+--------+--------+------+
+| CNUM | CNAME   | CITY   | RATING | SNUM |
++------+---------+--------+--------+------+
+| 2001 | Hoffman | London |    100 | 1001 |
+| 2006 | Clemens | London |    100 | 1001 |
++------+---------+--------+--------+------+
+2 rows in set (0.00 sec)
+
+-->Query 53
+
+
+-->Query 54
+mysql> SELECT ONUM FROM ORDERS WHERE AMT IS NULL OR AMT=0;
+Empty set (0.01 sec)
+
+-->Query 55
+mysql> SELECT S.SNAME,C.CNAME,C.RATING FROM CUSTOMERS C, SALESPEOPLE S WHERE C.RATING<200 GROUP BY S.SNAME,C.CNAME,C.RATING HAVING C.CNAME>=S.SNAME;
++---------+---------+--------+
+| SNAME   | CNAME   | RATING |
++---------+---------+--------+
+| Peel    | Pereira |    100 |
+| Motika  | Pereira |    100 |
+| AxelRod | Pereira |    100 |
+| AxelRod | Clemens |    100 |
+| AxelRod | Hoffman |    100 |
+| Fran    | Pereira |    100 |
+| Fran    | Hoffman |    100 |
++---------+---------+--------+
+7 rows in set (0.01 sec)
+
+-->Query 56
+mysql> SELECT S.SNAME, SUM(COMM*AMT*0.01) FROM SALESPEOPLE S, ORDERS O WHERE S.SNUM=O.SNUM GROUP BY SNAME;
++---------+--------------------+
+| SNAME   | SUM(COMM*AMT*0.01) |
++---------+--------------------+
+| Rifkin  | 167.52750520706178 |
+| Peel    | 1845.8483862304688 |
+| Motika  | 209.01099731445314 |
+| Serres  |  850.9995190429687 |
+| AxelRod |   171.322998046875 |
++---------+--------------------+
+5 rows in set (0.00 sec)
+
+-->Query 57
+
+
+-->Query 58
+mysql> SELECT S.SNAME,C.CNAME FROM CUSTOMERS C,SALESPEOPLE S WHERE S.SNUM=C.SNUM GROUP BY S.SNAME,C.CNAME HAVING C.CNAME>=S.SNAME;
++---------+----------+
+| SNAME   | CNAME    |
++---------+----------+
+| AxelRod | Giovanni |
+| Motika  | Pereira  |
++---------+----------+
+2 rows in set (0.00 sec)
+
+-->Query 59
+mysql> SELECT CNAME,RATING FROM CUSTOMERS WHERE RATING > (SELECT AVG(RATING) FROM CUSTOMERS);
++----------+--------+
+| CNAME    | RATING |
++----------+--------+
+| Giovanni |    200 |
+| Liu      |    200 |
+| Grass    |    300 |
+| Cisneros |    300 |
++----------+--------+
+4 rows in set (0.01 sec)
+
+-->Query 60
+mysql> SELECT SUM(AMT) FROM ORDERS;
++--------------------+
+| SUM(AMT)           |
++--------------------+
+| 26658.400022506714 |
++--------------------+
+1 row in set (0.00 sec)
+
 
 
 
